@@ -1,5 +1,8 @@
-package br.com.dendesofthouse.dendeeventos.mapper;
+package br.com.dendesofthouse.dendeeventos.mappers;
 
+import br.com.dendesofthouse.dendeeventos.dtos.usuario.*;
+import br.com.dendesofthouse.dendeeventos.models.Ingresso;
+import br.com.dendesofthouse.dendeeventos.models.Usuario;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;

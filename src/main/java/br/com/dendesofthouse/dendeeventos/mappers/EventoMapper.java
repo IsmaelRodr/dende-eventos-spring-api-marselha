@@ -1,10 +1,12 @@
-package br.com.dendesofthouse.dendeeventos.mapper;
+package br.com.dendesofthouse.dendeeventos.mappers;
 
+import br.com.dendesofthouse.dendeeventos.dtos.evento.*;
+import br.com.dendesofthouse.dendeeventos.models.Evento;
 import org.mapstruct.*;
 
 @Mapper(
         componentModel = "spring",
-        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
+        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE
 )
 public interface EventoMapper {
 

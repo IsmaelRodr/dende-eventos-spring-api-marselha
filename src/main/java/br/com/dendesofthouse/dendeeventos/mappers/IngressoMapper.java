@@ -1,5 +1,8 @@
-package br.com.dendesofthouse.dendeeventos.mapper;
+package br.com.dendesofthouse.dendeeventos.mappers;
 
+import br.com.dendesofthouse.dendeeventos.dtos.ingresso.IngressoGeradoDto;
+import br.com.dendesofthouse.dendeeventos.dtos.usuario.ListaIngressosUsuarioDto;
+import br.com.dendesofthouse.dendeeventos.models.Ingresso;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.NullValuePropertyMappingStrategy;

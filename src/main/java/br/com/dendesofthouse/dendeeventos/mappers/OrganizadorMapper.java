@@ -1,5 +1,8 @@
-package br.com.dendesofthouse.dendeeventos.mapper;
+package br.com.dendesofthouse.dendeeventos.mappers;
 
+import br.com.dendesofthouse.dendeeventos.dtos.organizador.*;
+import br.com.dendesofthouse.dendeeventos.models.Empresa;
+import br.com.dendesofthouse.dendeeventos.models.Organizador;
 import org.mapstruct.*;
 
 import java.time.LocalDate;
@@ -31,9 +34,9 @@ public interface OrganizadorMapper {
     default Empresa toEmpresaEntity(EmpresaDto empresaDto) {
         if (empresaDto == null) return null;
         Empresa empresa = new Empresa();
-        empresa.setCnpj(empresaDto.cnpj());
-        empresa.setRazaoSocial(empresaDto.razaoSocial());
-        empresa.setNomeFantasia(empresaDto.nomeFantasia());
+        empresa.setCnpj(empresaDto.getCnpj());
+        empresa.setRazaoSocial(empresaDto.getRazaoSocial());
+        empresa.setNomeFantasia(empresaDto.getNomeFantasia());
         return empresa;
     }//método para converter DTO em objeto, para empresa que é associado diretamente ao organizador no DTO.
 

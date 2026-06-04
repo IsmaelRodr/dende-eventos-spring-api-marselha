@@ -1,4 +1,4 @@
-package br.com.dendesofthouse.dendeeventos.dto.usuario;
+package br.com.dendesofthouse.dendeeventos.dtos.usuario;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,11 +7,11 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class StatusUsuarioDto {
+public class CancelarIngressoUsuarioDto {
 
     private String mensagem;
 
-    private Long usuarioId;
+    private Long ingressoId;
 
-    private Boolean ativo;
+    private Double valorEstornado;
 }

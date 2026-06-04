@@ -1,4 +1,4 @@
-package br.com.dendesofthouse.dendeeventos.dto.evento;
+package br.com.dendesofthouse.dendeeventos.dtos.evento;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

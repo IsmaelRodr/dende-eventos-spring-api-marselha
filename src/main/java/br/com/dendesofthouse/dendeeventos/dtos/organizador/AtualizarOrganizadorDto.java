@@ -1,6 +1,6 @@
-package br.com.softhouse.dende.dto.organizador;
+package br.com.dendesofthouse.dendeeventos.dtos.organizador;
 
-import br.com.softhouse.dende.model.Empresa;
+import br.com.dendesofthouse.dendeeventos.models.Empresa;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

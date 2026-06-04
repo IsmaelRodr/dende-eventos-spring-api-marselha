@@ -1,6 +1,6 @@
-package br.com.softhouse.dende.dto.organizador;
+package br.com.dendesofthouse.dendeeventos.dtos.organizador;
 
-import br.com.dendesofthouse.dendeeventos.dto.organizador.EmpresaDto;
+import br.com.dendesofthouse.dendeeventos.models.Empresa;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,19 +10,17 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class VisualizarOrganizadorDto {
+public class CadastrarOrganizadorDto {
 
     private String nome;
 
     private LocalDate dataNascimento;
 
-    private String idade;
-
     private String sexo;
 
     private String email;
 
-    private Boolean ativo;
+    private String senha;
 
-    private EmpresaDto empresa;
+    private Empresa empresa;
 }

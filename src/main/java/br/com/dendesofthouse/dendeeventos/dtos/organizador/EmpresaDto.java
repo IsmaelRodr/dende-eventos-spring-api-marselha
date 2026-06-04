@@ -1,4 +1,4 @@
-package br.com.dendesofthouse.dendeeventos.dto.organizador;
+package br.com.dendesofthouse.dendeeventos.dtos.organizador;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

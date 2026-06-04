@@ -1,4 +1,4 @@
-package br.com.dendesofthouse.dendeeventos.dto.organizador;
+package br.com.dendesofthouse.dendeeventos.dtos.evento;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,11 +7,11 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class StatusOrganizadorDto {
+public class StatusEventoDto {
 
     private String mensagem;
 
-    private Long organizadorId;
+    private Long eventoId;
 
     private Boolean ativo;
 }

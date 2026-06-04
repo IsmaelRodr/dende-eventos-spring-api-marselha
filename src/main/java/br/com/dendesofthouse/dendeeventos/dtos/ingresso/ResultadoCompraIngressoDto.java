@@ -1,6 +1,6 @@
 package br.com.softhouse.dende.dto.ingresso;
 
-import br.com.dendesofthouse.dendeeventos.dto.ingresso.IngressoGeradoDto;
+import br.com.dendesofthouse.dendeeventos.dtos.ingresso.IngressoGeradoDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

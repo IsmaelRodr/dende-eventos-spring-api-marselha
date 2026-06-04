@@ -1,4 +1,4 @@
-package br.com.dendesofthouse.dendeeventos.dto.usuario;
+package br.com.dendesofthouse.dendeeventos.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ComprarIngressoUsuarioDto {
+public class LoginDto {
 
-    private Long usuarioId;
+    private String email;
+
+    private String senha;
 }

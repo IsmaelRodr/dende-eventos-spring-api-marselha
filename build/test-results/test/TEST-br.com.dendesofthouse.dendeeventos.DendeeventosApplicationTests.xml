@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="br.com.dendesofthouse.dendeeventos.DendeeventosApplicationTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-06-04T12:52:15.124Z" hostname="HELLEN" time="7.689">
+  <properties/>
+  <testcase name="contextLoads()" classname="br.com.dendesofthouse.dendeeventos.DendeeventosApplicationTests" time="0.959"/>
+  <system-out><![CDATA[09:52:15.473 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [br.com.dendesofthouse.dendeeventos.DendeeventosApplicationTests]: DendeeventosApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+09:52:15.653 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration br.com.dendesofthouse.dendeeventos.DendeeventosApplication for test class br.com.dendesofthouse.dendeeventos.DendeeventosApplicationTests
+09:52:15.796 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [br.com.dendesofthouse.dendeeventos.DendeeventosApplicationTests]: DendeeventosApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+09:52:15.798 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration br.com.dendesofthouse.dendeeventos.DendeeventosApplication for test class br.com.dendesofthouse.dendeeventos.DendeeventosApplicationTests
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.0.6)
+
+2026-06-04T09:52:16.370-03:00  INFO 18396 --- [dendeeventos] [    Test worker] b.c.d.d.DendeeventosApplicationTests     : Starting DendeeventosApplicationTests using Java 21.0.11 with PID 18396 (started by helle in C:\Users\helle\OneDrive\Documentos\PROJETOS-TRABALHOS\TRABALHOS-FACULDADE\dende-eventos-spring-api-marselha)
+2026-06-04T09:52:16.373-03:00  INFO 18396 --- [dendeeventos] [    Test worker] b.c.d.d.DendeeventosApplicationTests     : No active profile set, falling back to 1 default profile: "default"
+2026-06-04T09:52:17.723-03:00  INFO 18396 --- [dendeeventos] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-06-04T09:52:17.769-03:00  INFO 18396 --- [dendeeventos] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 26 ms. Found 0 JPA repository interfaces.
+2026-06-04T09:52:18.552-03:00  INFO 18396 --- [dendeeventos] [    Test worker] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-06-04T09:52:18.657-03:00  INFO 18396 --- [dendeeventos] [    Test worker] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.2.12.Final
+2026-06-04T09:52:19.608-03:00  INFO 18396 --- [dendeeventos] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-06-04T09:52:19.653-03:00  INFO 18396 --- [dendeeventos] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-06-04T09:52:19.891-03:00  INFO 18396 --- [dendeeventos] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@3bc3d70e
+2026-06-04T09:52:19.895-03:00  INFO 18396 --- [dendeeventos] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-06-04T09:52:20.021-03:00  INFO 18396 --- [dendeeventos] [    Test worker] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:mysql://localhost:3306/Dende_Eventos_Marselha?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC]
+	Database driver: MySQL Connector/J
+	Database dialect: MySQLDialect
+	Database version: 8.0.46
+	Default catalog/schema: Dende_Eventos_Marselha/undefined
+	Autocommit mode: undefined/unknown
+	Isolation level: REPEATABLE_READ [default REPEATABLE_READ]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-06-04T09:52:20.543-03:00  INFO 18396 --- [dendeeventos] [    Test worker] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-06-04T09:52:20.557-03:00  INFO 18396 --- [dendeeventos] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-06-04T09:52:20.819-03:00  WARN 18396 --- [dendeeventos] [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-06-04T09:52:21.830-03:00  INFO 18396 --- [dendeeventos] [    Test worker] b.c.d.d.DendeeventosApplicationTests     : Started DendeeventosApplicationTests in 5.903 seconds (process running for 8.199)
+2026-06-04T09:52:21.835-03:00  WARN 18396 --- [dendeeventos] [    Test worker] o.s.core.events.SpringDocAppInitializer  : SpringDoc /v3/api-docs endpoint is enabled by default. To disable it in production, set the property 'springdoc.api-docs.enabled=false'
+2026-06-04T09:52:21.835-03:00  WARN 18396 --- [dendeeventos] [    Test worker] o.s.core.events.SpringDocAppInitializer  : SpringDoc /swagger-ui.html endpoint is enabled by default. To disable it in production, set the property 'springdoc.swagger-ui.enabled=false'
+]]></system-out>
+  <system-err><![CDATA[Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+WARNING: A Java agent has been loaded dynamically (C:\Users\helle\.gradle\caches\modules-2\files-2.1\net.bytebuddy\byte-buddy-agent\1.17.8\f09415827a71be7ed621c7bd02550678f28bc81c\byte-buddy-agent-1.17.8.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+]]></system-err>
+</testsuite>

@@ -1,4 +1,4 @@
-package br.com.dendesofthouse.dendeeventos.Models;
+package br.com.dendesofthouse.dendeeventos.models;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -6,7 +6,6 @@ import lombok.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 @Table(name = "usuario")

@@ -1,6 +1,5 @@
-package br.com.dendesofthouse.dendeeventos.Models;
+package br.com.dendesofthouse.dendeeventos.models;
 
-import br.com.dendesofthouse.dendeeventos.Models.Organizador;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;

@@ -1,6 +1,5 @@
-package br.com.dendesofthouse.dendeeventos.Models;
+package br.com.dendesofthouse.dendeeventos.models;
 
-import br.com.dendesofthouse.dendeeventos.Models.Ingresso;
 import br.com.dendesofthouse.dendeeventos.exceptions.DadosInvalidosException;
 import br.com.dendesofthouse.dendeeventos.exceptions.evento.EventoJaAtivoException;
 import br.com.dendesofthouse.dendeeventos.exceptions.evento.EventoJaInativoException;
@@ -13,7 +12,6 @@ import lombok.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 @Table(name = "evento")

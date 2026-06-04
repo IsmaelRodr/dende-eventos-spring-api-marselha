@@ -1,4 +1,4 @@
-package br.com.dendesofthouse.dendeeventos.Models;
+package br.com.dendesofthouse.dendeeventos.models;
 
 import br.com.dendesofthouse.dendeeventos.exceptions.DadosInvalidosException;
 import br.com.dendesofthouse.dendeeventos.exceptions.organizador.OrganizadorComEventosAtivosException;
@@ -9,7 +9,6 @@ import lombok.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 @Table(name = "organizador")

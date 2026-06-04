@@ -1,4 +1,4 @@
-package br.com.dendesofthouse.dendeeventos.Models;
+package br.com.dendesofthouse.dendeeventos.models;
 
 import br.com.dendesofthouse.dendeeventos.exceptions.ingresso.IngressoJaCanceladoException;
 import jakarta.persistence.*;

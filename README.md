@@ -169,5 +169,4 @@ Bom desenvolvimento e sejam bem-vindos à Dendê! 🌴🚀
 
 ---
 
-## Time Marselha
 Projeto desenvolvido para a OAT 4 - Introdução ao Spring Boot Framework

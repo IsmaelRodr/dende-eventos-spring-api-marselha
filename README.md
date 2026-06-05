@@ -69,7 +69,7 @@ Este projeto foi desenvolvido utilizando o ecossistema **Spring Boot**, uma das 
 ## 👥 Equipe
 
 **Nome da Equipe:**
-
+Marselha
 
 **Integrantes do Time:**
 

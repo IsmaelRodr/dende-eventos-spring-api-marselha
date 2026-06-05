@@ -44,7 +44,7 @@ Este projeto foi desenvolvido utilizando o ecossistema **Spring Boot**, uma das 
 | **org.springframework.boot:spring-boot-starter-web** | Starter para desenvolvimento de APIs REST utilizando Spring MVC. |
 | **org.springframework.boot:spring-boot-starter-data-jpa** | Implementação da camada de persistência utilizando JPA (Java Persistence API). |
 | **org.springframework.boot:spring-boot-starter-validation** | Suporte à validação de dados utilizando Jakarta Bean Validation. |
-| **org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0** | Geração automática da documentação da API utilizando OpenAPI e Swagger UI. |
+| **org.springdoc:springdoc-openapi-starter-webmvc-ui:2.7.0** | Geração automática da documentação da API utilizando OpenAPI e Swagger UI. |
 | **org.mapstruct:mapstruct** | Biblioteca para mapeamento automático entre entidades, DTOs e objetos de transferência de dados. |
 | **org.projectlombok:lombok** | Redução de código repetitivo por meio de anotações para geração automática de getters, setters, construtores e outros recursos. |
 | **com.mysql:mysql-connector-j** | Driver JDBC responsável pela conexão da aplicação com o banco de dados MySQL. |
@@ -63,7 +63,6 @@ Este projeto foi desenvolvido utilizando o ecossistema **Spring Boot**, uma das 
 - **Java** `21`
 - **Banco de Dados:** MySQL
 - **MapStruct:** `1.6.3`
-
 ---
 
 ## 👥 Equipe

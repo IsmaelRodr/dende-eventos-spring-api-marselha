@@ -41,10 +41,11 @@ Este projeto foi desenvolvido utilizando o ecossistema **Spring Boot**, uma das 
 
 | Dependência | Descrição |
 |------------|------------|
-| **org.springframework.boot:spring-boot-starter-webmvc** | Starter para desenvolvimento de APIs REST utilizando Spring MVC. |
+| **org.springframework.boot:spring-boot-starter-web** | Starter para desenvolvimento de APIs REST utilizando Spring MVC. |
 | **org.springframework.boot:spring-boot-starter-data-jpa** | Implementação da camada de persistência utilizando JPA (Java Persistence API). |
 | **org.springframework.boot:spring-boot-starter-validation** | Suporte à validação de dados utilizando Jakarta Bean Validation. |
-| **org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.2** | Geração automática da documentação da API utilizando OpenAPI e Swagger UI. |
+| **org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0** | Geração automática da documentação da API utilizando OpenAPI e Swagger UI. |
+| **org.mapstruct:mapstruct** | Biblioteca para mapeamento automático entre entidades, DTOs e objetos de transferência de dados. |
 | **org.projectlombok:lombok** | Redução de código repetitivo por meio de anotações para geração automática de getters, setters, construtores e outros recursos. |
 | **com.mysql:mysql-connector-j** | Driver JDBC responsável pela conexão da aplicação com o banco de dados MySQL. |
 
@@ -52,24 +53,23 @@ Este projeto foi desenvolvido utilizando o ecossistema **Spring Boot**, uma das 
 
 | Dependência | Descrição |
 |------------|------------|
-| **org.springframework.boot:spring-boot-starter-webmvc-test** | Ferramentas para testes da camada web e dos endpoints REST. |
-| **org.springframework.boot:spring-boot-starter-data-jpa-test** | Suporte a testes relacionados à camada de persistência e repositórios JPA. |
-| **org.springframework.boot:spring-boot-starter-validation-test** | Recursos para testes das regras de validação da aplicação. |
+| **org.springframework.boot:spring-boot-starter-test** | Conjunto de ferramentas para testes unitários, de integração e testes da aplicação Spring Boot. |
 | **org.junit.platform:junit-platform-launcher** | Executor da plataforma JUnit para execução dos testes automatizados. |
 
 ### Plugins e Configurações Principais
 
-- **org.springframework.boot** `4.0.6`
+- **org.springframework.boot** `3.4.0`
 - **io.spring.dependency-management** `1.1.7`
 - **Java** `21`
 - **Banco de Dados:** MySQL
+- **MapStruct:** `1.6.3`
 
 ---
 
 ## 👥 Equipe
 
 **Nome da Equipe:**
-
+Marselha
 
 **Integrantes do Time:**
 
@@ -169,5 +169,4 @@ Bom desenvolvimento e sejam bem-vindos à Dendê! 🌴🚀
 
 ---
 
-## Time Marselha
 Projeto desenvolvido para a OAT 4 - Introdução ao Spring Boot Framework

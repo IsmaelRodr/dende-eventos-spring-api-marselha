@@ -1,5 +1,6 @@
 package br.com.dendesofthouse.dendeeventos.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
@@ -17,25 +18,21 @@ import lombok.*;
 public class Empresa {
 
     @Id
-    @NotBlank(message = "CNPJ é obrigatório")
     @Column(name = "cnpj", length = 18, nullable = false, unique = true)
     @EqualsAndHashCode.Include
     @ToString.Include
     private String cnpj;
 
-
-    @NotBlank(message = "Razão social é obrigatória")
     @Column(name = "razao_social", length = 255, nullable = false)
     @ToString.Include
     private String razaoSocial;
 
-    @NotBlank(message = "Nome Fantasia é obrigatório")
     @Column(name = "nome_fantasia", length = 255, nullable = false)
     @ToString.Include
     private String nomeFantasia;
 
     // Relacionamento ManyToOne com Organizador (assumindo que a entidade Organizador existe)
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(
             name = "organizador_id",
             nullable = false,
@@ -43,5 +40,13 @@ public class Empresa {
             foreignKey = @ForeignKey(name = "fk_empresa_organizador")
     )
     @ToString.Exclude // evita loop no toString
+    @JsonIgnore
     private Organizador organizador;
+
+    public void setOrganizador(Organizador organizador) {
+        this.organizador = organizador;
+        if (organizador != null && organizador.getEmpresa() != this) {
+            organizador.setEmpresa(this);
+        }
+    }
 }

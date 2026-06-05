@@ -1,9 +1,12 @@
 package br.com.dendesofthouse.dendeeventos.models;
 
 import br.com.dendesofthouse.dendeeventos.exceptions.ingresso.IngressoJaCanceladoException;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -28,11 +31,13 @@ public class Ingresso {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "usuario_id", nullable = false,
             foreignKey = @ForeignKey(name = "fk_ingresso_usuario"))
+    @JsonIgnore
     private Usuario usuario;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "evento_id", nullable = false,
             foreignKey = @ForeignKey(name = "fk_ingresso_evento"))
+    @JsonIgnore
     private Evento evento;
 
     @Enumerated(EnumType.STRING)
@@ -45,12 +50,12 @@ public class Ingresso {
     private String email;
 
     @Column(name = "valor_pago", nullable = false, precision = 10, scale = 2)
-    @ToString.Include
-    private double valorPago;
+    private BigDecimal valorPago;
 
     @Column(name = "valor_estornado", nullable = false, precision = 10, scale = 2)
     @Builder.Default
-    private double valorEstornado = 0.0;
+    private BigDecimal valorEstornado = BigDecimal.ZERO;
+
 
     @Column(name = "data_compra", nullable = false, updatable = false)
     @ToString.Include
@@ -60,21 +65,20 @@ public class Ingresso {
         ACEITO, CANCELADO
     }
 
-    // Construtor conveniente para criação de novos ingressos (sem builder)
-    public Ingresso(Usuario usuario, Evento evento, double valorPago, String email) {
-        this.usuario = Objects.requireNonNull(usuario);
-        this.evento = Objects.requireNonNull(evento);
+    // Construtor sem id (recomendado para uso nos serviços)
+    public Ingresso(Usuario usuario, Evento evento, BigDecimal valorPago, String email) {
+        this.usuario = usuario;
+        this.evento = evento;
         this.valorPago = valorPago;
         this.email = email;
         this.status = StatusIngresso.ACEITO;
         this.dataCompra = LocalDateTime.now();
+        this.valorEstornado = BigDecimal.ZERO;
     }
 
     @PrePersist
     protected void onCreate() {
-        if (dataCompra == null) {
-            dataCompra = LocalDateTime.now();
-        }
+        if (dataCompra == null) dataCompra = LocalDateTime.now();
     }
 
     public boolean isCancelado() {
@@ -82,14 +86,15 @@ public class Ingresso {
     }
 
     public void cancelar() {
-        if (this.status == StatusIngresso.CANCELADO) {
+        if (this.status == StatusIngresso.CANCELADO)
             throw new IngressoJaCanceladoException("Ingresso já cancelado.");
-        }
         this.status = StatusIngresso.CANCELADO;
         if (this.evento.isEventoEstorno()) {
-            this.valorEstornado = this.valorPago * (1 - evento.getTaxaCancelamento() / 100.0);
+            BigDecimal taxa = this.evento.getTaxaCancelamento();
+            BigDecimal percentualRestante = BigDecimal.ONE.subtract(taxa.divide(new BigDecimal("100"),  4, RoundingMode.HALF_EVEN));
+            this.valorEstornado = this.valorPago.multiply(percentualRestante);
         } else {
-            this.valorEstornado = 0.0;
+            this.valorEstornado = BigDecimal.ZERO;
         }
     }
 

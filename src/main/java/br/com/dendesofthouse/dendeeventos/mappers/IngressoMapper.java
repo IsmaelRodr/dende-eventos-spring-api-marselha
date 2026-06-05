@@ -7,17 +7,14 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
-@Mapper(
-        componentModel = "spring",
-        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE
-)
+@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface IngressoMapper {
 
     @Mapping(source = "usuario.id", target = "usuarioId")
     @Mapping(source = "id", target = "ingressoId")
     @Mapping(source = "evento.id", target = "eventoId")
     @Mapping(source = "evento.nome", target = "eventoNome")
-    @Mapping(source = "evento.dataInicio", target = "eventoDataInicio")
+    @Mapping(source = "evento.dataInicio", target = "dataInicio")
     @Mapping(source = "status", target = "status")
     @Mapping(source = "valorPago", target = "valorPago")
     @Mapping(source = "valorEstornado", target = "valorEstornado")

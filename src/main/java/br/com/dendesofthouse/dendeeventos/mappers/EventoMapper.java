@@ -2,57 +2,64 @@ package br.com.dendesofthouse.dendeeventos.mappers;
 
 import br.com.dendesofthouse.dendeeventos.dtos.evento.*;
 import br.com.dendesofthouse.dendeeventos.models.Evento;
+import br.com.dendesofthouse.dendeeventos.models.Evento.Modalidade;
+import br.com.dendesofthouse.dendeeventos.models.Evento.TipoEvento;
 import org.mapstruct.*;
 
-@Mapper(
-        componentModel = "spring",
-        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE
-)
+@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface EventoMapper {
-
-    @Mapping(target = "id", ignore = true)                       // gerado pelo banco
-    @Mapping(target = "eventoAtivo", constant = "false")         // valor padrão: false
-    @Mapping(target = "ingressosDisponiveis", ignore = true)     // campo calculado, não persistido
-    @Mapping(target = "organizador", ignore = true)              // será setado no service
-    @Mapping(target = "eventoPrincipal", source = "eventoPrincipalId", qualifiedByName = "toEventoPrincipal") //Usa método específico.
-    @Mapping(target = "tipoEvento", source = "tipoEvento", qualifiedByName = "toTipoEvento") //usa método específico.
-    @Mapping(target = "modalidade", source = "modalidade", qualifiedByName = "toModalidade") //usa método específico.
-    Evento toModel(CadastrarEventoDto dto); //Cria um objeto com dados do DTO
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "organizador", ignore = true)
-    @Mapping(target = "ingressosDisponiveis", ignore = true) //Esse campo não existe em persistência ele é calculado na memória.
-    @Mapping(target = "eventoPrincipal", source = "eventoPrincipalId", qualifiedByName = "toEventoPrincipal") //usa método específico.
-    @Mapping(target = "tipoEvento", source = "tipoEvento", qualifiedByName = "toTipoEvento") //usa método específico.
-    @Mapping(target = "modalidade", source = "modalidade", qualifiedByName = "toModalidade") //usa método específico.
+    @Mapping(target = "eventoAtivo", constant = "false")
+    @Mapping(target = "ingressos", ignore = true)
+    @Mapping(target = "eventoPrincipal", source = "eventoPrincipalId", qualifiedByName = "toEventoPrincipal")
+    @Mapping(target = "tipoEvento", source = "tipoEvento", qualifiedByName = "toTipoEvento")
+    @Mapping(target = "modalidade", source = "modalidade", qualifiedByName = "toModalidade")
+    Evento toModel(CadastrarEventoDto dto);
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "organizador", ignore = true)
+    @Mapping(target = "eventoAtivo", ignore = true)
+    @Mapping(target = "ingressos", ignore = true)
+    @Mapping(target = "eventoPrincipal", source = "eventoPrincipalId", qualifiedByName = "toEventoPrincipal")
+    @Mapping(target = "tipoEvento", source = "tipoEvento", qualifiedByName = "toTipoEvento")
+    @Mapping(target = "modalidade", source = "modalidade", qualifiedByName = "toModalidade")
     void updateModel(@MappingTarget Evento evento, AtualizarEventoDto dto);
 
-    EventosOrganizadorDto toEventosOrganizadorDto(Evento evento); //DTO de saída de dados convertendo objeto em DTO.
+    EventosOrganizadorDto toEventosOrganizadorDto(Evento evento);
 
-    FeedEventoDto toFeedEventoDto(Evento evento); //DTO de saída de dados convertendo objeto em DTO.
+    FeedEventoDto toFeedEventoDto(Evento evento);
 
-    @Mapping(source = "evento.id", target = "eventoId") //Mapear o ID do DTO
-    @Mapping(source = "evento.eventoAtivo", target = "ativo") //Mapear o atributo ativo (desnessario?)
+    @Mapping(source = "evento.id", target = "eventoId")
+    @Mapping(source = "evento.eventoAtivo", target = "ativo")
     StatusEventoDto toStatusEventoDto(String mensagem, Evento evento);
 
-
     @Named("toTipoEvento")
-    default Evento.TipoEvento toTipoEvento(String tipoEvento) {
-        if (tipoEvento == null || tipoEvento.isBlank()) return null;
-        return Evento.TipoEvento.valueOf(tipoEvento.trim().toUpperCase());
+    default TipoEvento toTipoEvento(String tipo) {
+        if (tipo == null || tipo.isBlank()) return null;
+        try {
+            return TipoEvento.valueOf(tipo.trim().toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Tipo de evento inválido: " + tipo);
+        }
     }
 
     @Named("toModalidade")
-    default Evento.Modalidade toModalidade(String modalidade) {
+    default Modalidade toModalidade(String modalidade) {
         if (modalidade == null || modalidade.isBlank()) return null;
-        return Evento.Modalidade.valueOf(modalidade.trim().toUpperCase());
+        try {
+            return Modalidade.valueOf(modalidade.trim().toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Modalidade inválida: " + modalidade);
+        }
     }
 
     @Named("toEventoPrincipal")
-    default Evento toEventoPrincipal(Long eventoPrincipalId) {
-        if (eventoPrincipalId == null) return null;
-        Evento principal = new Evento();
-        principal.setId(eventoPrincipalId);
-        return principal;  // apenas com ID, o restante será carregado pelo service se necessário
+    default Evento toEventoPrincipal(Long id) {
+        if (id == null) return null;
+        Evento evento = new Evento();
+        evento.setId(id);
+        return evento;
     }
 }

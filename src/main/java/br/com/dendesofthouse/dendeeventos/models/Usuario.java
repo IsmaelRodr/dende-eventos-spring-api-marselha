@@ -1,5 +1,6 @@
 package br.com.dendesofthouse.dendeeventos.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -46,8 +47,9 @@ public class Usuario {
     @Builder.Default
     private boolean ativo = true;
 
-    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @Builder.Default
+    @JsonIgnore // evita loop na serialização (os ingressos serão carregados via DTO)
     @ToString.Exclude
     private List<Ingresso> ingressos = new ArrayList<>();
 
@@ -78,8 +80,9 @@ public class Usuario {
      * Retorna uma lista imutável dos ingressos do usuário.
      */
     public List<Ingresso> getIngressos() {
-        return List.copyOf(ingressos);
+        return java.util.Collections.unmodifiableList(ingressos);
     }
+
 
     /**
      * Substitui a lista de ingressos, mantendo a relação bidirecional.

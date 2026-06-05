@@ -3,40 +3,40 @@ package br.com.dendesofthouse.dendeeventos.mappers;
 import br.com.dendesofthouse.dendeeventos.dtos.usuario.*;
 import br.com.dendesofthouse.dendeeventos.models.Ingresso;
 import br.com.dendesofthouse.dendeeventos.models.Usuario;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.NullValuePropertyMappingStrategy;
+import org.mapstruct.*;
 
 import java.time.LocalDate;
 import java.time.Period;
 
-@Mapper(componentModel = "spring",
-        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE
-)
+@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface UsuarioMapper {
-    @Mapping(target = "id", ignore = true) //Gerado pelo banco
-    Usuario toModel(CadastrarUsuarioDto dto); //Converte os dados de entrada em objeto.
 
-    void updateModel(@MappingTarget Usuario usuario, AtualizarUsuarioDto dto); //Atualiza o objeto.
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "ativo", constant = "true")
+    @Mapping(target = "ingressos", ignore = true)
+    Usuario toModel(CadastrarUsuarioDto dto);
 
-    @Mapping(target= "idade", expression = "java(calcularIdade(usuario.getDataNascimento()))") //Usar o método auxiliar para imprimir a idade com base na US.
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "email", ignore = true)
+    @Mapping(target = "ativo", ignore = true)
+    @Mapping(target = "ingressos", ignore = true)
+    void updateModel(@MappingTarget Usuario usuario, AtualizarUsuarioDto dto);
+
+    @Mapping(target = "idade", expression = "java(calcularIdade(usuario.getDataNascimento()))")
     VisualizarUsuarioDto toVisualizarDto(Usuario usuario);
-
-    @Mapping(source = "mensagem", target = "mensagem")
-    @Mapping(source = "usuario.id", target = "usuarioId")
-    @Mapping(source = "usuario.ativo", target = "ativo")
-    StatusUsuarioDto toStatusDto(String mensagem, Usuario usuario); //DTO para confirmação de operações.
 
     @Mapping(source = "mensagem", target = "mensagem")
     @Mapping(source = "ingresso.id", target = "ingressoId")
     @Mapping(source = "ingresso.valorEstornado", target = "valorEstornado")
-    CancelarIngressoUsuarioDto toCancelarDTO(String mensagem, Ingresso ingresso); //DTO para confirmação de cancelamento.
+    CancelarIngressoUsuarioDto toCancelarDto(String mensagem, Ingresso ingresso);
 
-    private String calcularIdade(LocalDate nascimento) {
+    @Mapping(source = "usuario.id", target = "usuarioId")
+    @Mapping(source = "usuario.ativo", target = "ativo")
+    StatusUsuarioDto toStatusDto(String mensagem, Usuario usuario);
+
+    default String calcularIdade(LocalDate nascimento) {
+        if (nascimento == null) return null;
         Period p = Period.between(nascimento, LocalDate.now());
-        return p.getYears() + " anos, " +
-                p.getMonths() + " meses, " +
-                p.getDays() + " dias";
+        return p.getYears() + " anos, " + p.getMonths() + " meses, " + p.getDays() + " dias";
     }
 }

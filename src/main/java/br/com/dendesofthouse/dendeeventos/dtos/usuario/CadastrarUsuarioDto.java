@@ -1,23 +1,24 @@
 package br.com.dendesofthouse.dendeeventos.dtos.usuario;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
+import jakarta.validation.constraints.*;
 import java.time.LocalDate;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class CadastrarUsuarioDto {
+public record CadastrarUsuarioDto(
+        @NotBlank(message = "Nome é obrigatório")
+        String nome,
 
-    private String nome;
+        @NotNull(message = "Data de nascimento é obrigatória")
+        @Past(message = "Data de nascimento deve ser no passado")
+        LocalDate dataNascimento,
 
-    private LocalDate dataNascimento;
+        @NotBlank(message = "Sexo é obrigatório")
+        String sexo,
 
-    private String sexo;
+        @NotBlank(message = "Email é obrigatório")
+        @Email(message = "Email inválido")
+        String email,
 
-    private String email;
-
-    private String senha;
-}
+        @NotBlank(message = "Senha é obrigatória")
+        @Size(min = 6, message = "Senha deve ter no mínimo 6 caracteres")
+        String senha
+) {}

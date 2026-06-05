@@ -8,37 +8,39 @@ import org.mapstruct.*;
 import java.time.LocalDate;
 import java.time.Period;
 
-@Mapper(componentModel = "spring",
-        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE
-)
+@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface OrganizadorMapper {
 
-    @Mapping(target = "id", ignore = true) //ID gerado pelo banco
-    @Mapping(target = "empresa", source = "empresa", qualifiedByName = "toEmpresaEntity") //Usa um método específico para lidar com o campo empresa.
-    Organizador toModel(CadastrarOrganizadorDto dto); //Cria um objeto com dados do DTO
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "ativo", constant = "true")
+    @Mapping(target = "empresa", source = "empresa", qualifiedByName = "toEmpresaEntity")
+    @Mapping(target = "eventos", ignore = true)
+    Organizador toModel(CadastrarOrganizadorDto dto);
 
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "email", ignore = true)
+    @Mapping(target = "ativo", ignore = true)
+    @Mapping(target = "empresa", source = "empresa", qualifiedByName = "toEmpresaEntity")
+    @Mapping(target = "eventos", ignore = true)
+    void updateModel(@MappingTarget Organizador organizador, AtualizarOrganizadorDto dto);
 
-    @Mapping(target = "empresa", source = "empresa", qualifiedByName = "toEmpresaEntity") //Usa um método específico para lidar com o campo empresa.
-    void updateModel(@MappingTarget Organizador organizador, AtualizarOrganizadorDto dto); //Atualiza um objeto com os dados do DTO.
-
-
-    @Mapping(target = "idade", expression = "java(calcularIdade(organizador.getDataNascimento()))") //Usa um método específico para calcular a idade.
-    @Mapping(target = "empresa", source = "empresa", qualifiedByName = "toEmpresaDto") //usa um método específico para converter os dados do objeto em dto de saída.
+    @Mapping(target = "idade", expression = "java(calcularIdade(organizador.getDataNascimento()))")
+    @Mapping(target = "empresa", source = "empresa", qualifiedByName = "toEmpresaDto")
     VisualizarOrganizadorDto toVisualizarDto(Organizador organizador);
 
-    @Mapping(source = "organizador.id", target = "organizadorId") //mapear o id com o campo do DTO.
-    @Mapping(source = "organizador.ativo", target = "ativo") //O mesmo do de cima, porém com o campo ativo, provavelmente não necessario.
-    StatusOrganizadorDto toStatusDto(String mensagem, Organizador organizador); //DTO de saída de dados.
+    @Mapping(source = "organizador.id", target = "organizadorId")
+    @Mapping(source = "organizador.ativo", target = "ativo")
+    StatusOrganizadorDto toStatusDto(String mensagem, Organizador organizador);
 
     @Named("toEmpresaEntity")
-    default Empresa toEmpresaEntity(EmpresaDto empresaDto) {
-        if (empresaDto == null) return null;
+    default Empresa toEmpresaEntity(EmpresaDto dto) {
+        if (dto == null) return null;
         Empresa empresa = new Empresa();
-        empresa.setCnpj(empresaDto.getCnpj());
-        empresa.setRazaoSocial(empresaDto.getRazaoSocial());
-        empresa.setNomeFantasia(empresaDto.getNomeFantasia());
+        empresa.setCnpj(dto.cnpj());
+        empresa.setRazaoSocial(dto.razaoSocial());
+        empresa.setNomeFantasia(dto.nomeFantasia());
         return empresa;
-    }//método para converter DTO em objeto, para empresa que é associado diretamente ao organizador no DTO.
+    }
 
     @Named("toEmpresaDto")
     default EmpresaDto toEmpresaDto(Empresa empresa) {
@@ -48,12 +50,11 @@ public interface OrganizadorMapper {
                 empresa.getRazaoSocial(),
                 empresa.getNomeFantasia()
         );
-    }//O contrario do método acima, objeto --> DTO.
+    }
 
-    private String calcularIdade(LocalDate nascimento) {
+    default String calcularIdade(LocalDate nascimento) {
+        if (nascimento == null) return null;
         Period p = Period.between(nascimento, LocalDate.now());
-        return p.getYears() + " anos, " +
-                p.getMonths() + " meses, " +
-                p.getDays() + " dias";
+        return p.getYears() + " anos, " + p.getMonths() + " meses, " + p.getDays() + " dias";
     }
 }

@@ -1,17 +1,10 @@
 package br.com.dendesofthouse.dendeeventos.dtos.organizador;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.Pattern;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class EmpresaDto {
-
-    private String cnpj;
-
-    private String razaoSocial;
-
-    private String nomeFantasia;
-}
+public record EmpresaDto(
+        @Pattern(regexp = "^\\d{2}\\.\\d{3}\\.\\d{3}/\\d{4}-\\d{2}$|^\\d{14}$", message = "CNPJ inválido")
+        String cnpj,
+        String razaoSocial,
+        String nomeFantasia
+) {}

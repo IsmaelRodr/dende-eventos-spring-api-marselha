@@ -1,15 +1,13 @@
 package br.com.dendesofthouse.dendeeventos.dtos;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class LoginDto {
+public record LoginDto(
+        @NotBlank(message = "Email é obrigatório")
+        @Email(message = "Email inválido")
+        String email,
 
-    private String email;
-
-    private String senha;
-}
+        @NotBlank(message = "Senha é obrigatória")
+        String senha
+) {}

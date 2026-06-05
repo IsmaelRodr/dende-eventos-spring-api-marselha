@@ -1,18 +1,9 @@
-package br.com.softhouse.dende.dto.ingresso;
+package br.com.dendesofthouse.dendeeventos.dtos.ingresso;
 
-import br.com.dendesofthouse.dendeeventos.dtos.ingresso.IngressoGeradoDto;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
+import java.math.BigDecimal;
 import java.util.List;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class ResultadoCompraIngressoDto {
-
-    private Double valorTotal;
-
-    private List<IngressoGeradoDto> ingressosGerados;
-}
+public record ResultadoCompraIngressoDto(
+        BigDecimal valorTotal,
+        List<IngressoGeradoDto> ingressosGerados
+) {}

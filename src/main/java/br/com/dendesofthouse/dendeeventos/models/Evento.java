@@ -1,16 +1,15 @@
 package br.com.dendesofthouse.dendeeventos.models;
 
-import br.com.dendesofthouse.dendeeventos.exceptions.DadosInvalidosException;
-import br.com.dendesofthouse.dendeeventos.exceptions.evento.EventoJaAtivoException;
-import br.com.dendesofthouse.dendeeventos.exceptions.evento.EventoJaInativoException;
-import br.com.dendesofthouse.dendeeventos.exceptions.evento.EventoSemIngressosDisponiveisException;
+import br.com.dendesofthouse.dendeeventos.exceptions.evento.*;
 import br.com.dendesofthouse.dendeeventos.exceptions.ingresso.CancelamentoNaoPermitidoException;
-import br.com.dendesofthouse.dendeeventos.exceptions.ingresso.IngressoJaCanceladoException;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Entity
@@ -33,6 +32,7 @@ public class Evento {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "organizador_id", nullable = false,
             foreignKey = @ForeignKey(name = "fk_evento_organizador"))
+    @JsonIgnore
     private Organizador organizador;
 
     @Column(name = "nome", length = 255, nullable = false)
@@ -52,12 +52,12 @@ public class Evento {
     private LocalDateTime dataFim;
 
     @Convert(converter = TipoEventoConverter.class)
-    @Column(name = "tipo_evento", nullable = false, columnDefinition = "ENUM(...)")
+    @Column(name = "tipo_evento", nullable = false)
     private TipoEvento tipoEvento;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "evento_principal_id",
-            foreignKey = @ForeignKey(name = "fk_evento_principal"))
+    @JoinColumn(name = "evento_principal_id", foreignKey = @ForeignKey(name = "fk_evento_principal"))
+    @JsonIgnore
     private Evento eventoPrincipal;
 
     @Enumerated(EnumType.STRING)
@@ -65,11 +65,12 @@ public class Evento {
     private Modalidade modalidade;
 
     @Column(name = "preco_unitario_ingresso", nullable = false, precision = 10, scale = 2)
-    private double precoUnitarioIngresso;
+    private BigDecimal precoUnitarioIngresso;
 
     @Column(name = "taxa_cancelamento", nullable = false, precision = 10, scale = 2)
     @Builder.Default
-    private double taxaCancelamento = 0.0;
+    private BigDecimal taxaCancelamento = BigDecimal.ZERO;
+
 
     @Column(name = "evento_estorno", nullable = false)
     @Builder.Default
@@ -87,113 +88,38 @@ public class Evento {
 
     @OneToMany(mappedBy = "evento", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @Builder.Default
+    @JsonIgnore
     @ToString.Exclude
     private List<Ingresso> ingressos = new ArrayList<>();
 
-    // Enum público (compatível com banco via converter)
-    public enum TipoEvento {
-        SOCIAL("SOCIAL"),
-        CORPORATIVO("CORPORATIVO"),
-        ACADEMICO("ACADÊMICO"),
-        CULTURAL("CULTURAL"),
-        ENTRETENIMENTO("ENTRETENIMENTO"),
-        RELIGIOSOS("RELIGIOSOS"),
-        ESPORTIVOS("ESPORTIVOS"),
-        FEIRA("FEIRA"),
-        CONGRESSO("CONGRESSO"),
-        OFICINA("OFICINA"),
-        CURSO("CURSO"),
-        TREINAMENTO("TREINAMENTO"),
-        AULA("AULA"),
-        SEMINARIO("SEMINÁRIO"),
-        PALESTRA("PALESTRA"),
-        SHOW("SHOW"),
-        FESTIVAL("FESTIVAL"),
-        EXPOSICAO("EXPOSIÇÃO"),
-        RETIRO("RETIRO"),
-        CULTO("CULTO"),
-        CELEBRACAO("CELEBRAÇÃO"),
-        CAMPEONATO("CAMPEONATO"),
-        CORRIDA("CORRIDA");
-
-        private final String dbValue;
-
-        TipoEvento(String dbValue) {
-            this.dbValue = dbValue;
-        }
-
-        public String getDbValue() {
-            return dbValue;
-        }
-
-        public static TipoEvento fromDbValue(String dbValue) {
-            for (TipoEvento te : values()) {
-                if (te.dbValue.equals(dbValue)) {
-                    return te;
-                }
-            }
-            throw new IllegalArgumentException("Valor desconhecido: " + dbValue);
-        }
-    }
-
-    public enum Modalidade {
-        PRESENCIAL, REMOTO, HIBRIDO
-    }
-
-    // Converter para TipoEvento (lida com acentos)
-    @Converter(autoApply = true)
-    public static class TipoEventoConverter implements AttributeConverter<TipoEvento, String> {
-        @Override
-        public String convertToDatabaseColumn(TipoEvento attribute) {
-            return attribute == null ? null : attribute.getDbValue();
-        }
-
-        @Override
-        public TipoEvento convertToEntityAttribute(String dbData) {
-            return dbData == null ? null : TipoEvento.fromDbValue(dbData);
-        }
-    }
-
+    // Campo calculado (não persistido)
     public int getIngressosDisponiveis() {
         long vendidosNaoCancelados = ingressos.stream()
-                .filter(i -> !i.isCancelado())
+                .filter(i -> i.getStatus() == Ingresso.StatusIngresso.ACEITO)
                 .count();
         return capacidadeMaxima - (int) vendidosNaoCancelados;
     }
 
-    // Acesso imutável à lista
     public List<Ingresso> getIngressos() {
-        return List.copyOf(ingressos);
+        return Collections.unmodifiableList(ingressos);
     }
 
     public void setIngressos(List<Ingresso> ingressos) {
         this.ingressos.clear();
         if (ingressos != null) {
             this.ingressos.addAll(ingressos);
-            // Garante o relacionamento bidirecional
             this.ingressos.forEach(i -> i.setEvento(this));
         }
     }
 
     // Regras de negócio
     public void ativar() {
-        if (this.isEventoAtivo()) {
-            throw new EventoJaAtivoException("Evento já está ativo.");
-        }
+        if (this.isEventoAtivo()) throw new EventoJaAtivoException("Evento já está ativo.");
         setEventoAtivo(true);
-        // ingressosDisponiveis agora é calculado dinamicamente
     }
 
     public List<Ingresso> desativar() {
-        if (!this.isEventoAtivo()) {
-            throw new EventoJaInativoException("Evento já está inativo.");
-        }
-        List<Ingresso> cancelados = cancelarIngressos();
-        setEventoAtivo(false);
-        return cancelados;
-    }
-
-    private List<Ingresso> cancelarIngressos() {
+        if (!this.isEventoAtivo()) throw new EventoJaInativoException("Evento já está inativo.");
         List<Ingresso> cancelados = new ArrayList<>();
         for (Ingresso ingresso : ingressos) {
             if (!ingresso.isCancelado()) {
@@ -201,6 +127,7 @@ public class Evento {
                 cancelados.add(ingresso);
             }
         }
+        setEventoAtivo(false);
         return cancelados;
     }
 
@@ -219,6 +146,29 @@ public class Evento {
             throw new CancelamentoNaoPermitidoException("Evento não permite estorno.");
         }
         ingresso.cancelar();
-        // Não é mais necessário incrementar contador manual
+    }
+
+    // Enums e converter
+    public enum TipoEvento {
+        SOCIAL, CORPORATIVO, ACADEMICO, CULTURAL, ENTRETENIMENTO, RELIGIOSOS,
+        ESPORTIVOS, FEIRA, CONGRESSO, OFICINA, CURSO, TREINAMENTO, AULA, SEMINARIO,
+        PALESTRA, SHOW, FESTIVAL, EXPOSICAO, RETIRO, CULTO, CELEBRACAO, CAMPEONATO, CORRIDA
+    }
+
+    public enum Modalidade {
+        PRESENCIAL, REMOTO, HIBRIDO
+    }
+
+    @Converter(autoApply = true)
+    public static class TipoEventoConverter implements AttributeConverter<TipoEvento, String> {
+        @Override
+        public String convertToDatabaseColumn(TipoEvento attribute) {
+            return attribute == null ? null : attribute.name();
+        }
+
+        @Override
+        public TipoEvento convertToEntityAttribute(String dbData) {
+            return dbData == null ? null : TipoEvento.valueOf(dbData);
+        }
     }
 }

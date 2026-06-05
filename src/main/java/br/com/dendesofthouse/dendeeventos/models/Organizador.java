@@ -3,6 +3,7 @@ package br.com.dendesofthouse.dendeeventos.models;
 import br.com.dendesofthouse.dendeeventos.exceptions.DadosInvalidosException;
 import br.com.dendesofthouse.dendeeventos.exceptions.organizador.OrganizadorComEventosAtivosException;
 import br.com.dendesofthouse.dendeeventos.exceptions.organizador.OrganizadorJaInativoException;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -50,11 +51,13 @@ public class Organizador {
 
     // Relacionamento com Empresa (mapeado pelo lado de Empresa, que possui organizador_id)
     @OneToOne(mappedBy = "organizador", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
     private Empresa empresa;
 
     // Relacionamento com Evento (um organizador pode ter vários eventos)
     @OneToMany(mappedBy = "organizador", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
+    @JsonIgnore
     @ToString.Exclude
     private List<Evento> eventos = new ArrayList<>();
 
@@ -100,7 +103,7 @@ public class Organizador {
      * Retorna uma lista imutável dos eventos.
      */
     public List<Evento> getEventos() {
-        return List.copyOf(eventos);
+        return java.util.Collections.unmodifiableList(eventos);
     }
 
     /**

@@ -1,39 +1,21 @@
 package br.com.dendesofthouse.dendeeventos.dtos.evento;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
+import jakarta.validation.constraints.*;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class CadastrarEventoDto {
-
-    private String nome;
-
-    private String descricao;
-
-    private String paginaWeb;
-
-    private LocalDateTime dataInicio;
-
-    private LocalDateTime dataFim;
-
-    private String tipoEvento;
-
-    private Long eventoPrincipalId;
-
-    private String modalidade;
-
-    private Double precoUnitarioIngresso;
-
-    private Double taxaCancelamento;
-
-    private Boolean eventoEstorno;
-
-    private Integer capacidadeMaxima;
-
-    private String localEvento;
-}
+public record CadastrarEventoDto(
+        @NotBlank String nome,
+        String descricao,
+        String paginaWeb,
+        @NotNull @Future LocalDateTime dataInicio,
+        @NotNull LocalDateTime dataFim,
+        @NotBlank String tipoEvento,
+        Long eventoPrincipalId,
+        @NotBlank String modalidade,
+        @PositiveOrZero BigDecimal precoUnitarioIngresso,
+        @PositiveOrZero @DecimalMax("100") BigDecimal taxaCancelamento,
+        boolean eventoEstorno,
+        @Positive int capacidadeMaxima,
+        @NotBlank String localEvento
+) {}
